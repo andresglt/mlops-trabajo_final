@@ -1,0 +1,29 @@
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+      - src/preprocess.py
+      - data/raw/bank-additional-full.csv
+      - params.yaml
+    outs:
+      - data/processed/X_train.parquet
+      - data/processed/y_train.parquet
+      - data/processed/X_test.parquet
+      - data/processed/y_test.parquet
+      - data/processed/meta.json
+      - models/preprocessor.pkl   # nuevo: guardas el objeto ColumnTransformer
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed/X_train.parquet
+      - data/processed/y_train.parquet
+      - data/processed/X_test.parquet
+      - data/processed/y_test.parquet
+      - models/preprocessor.pkl   # el entrenamiento depende del preprocesador
+      - params.yaml
+    outs:
+      - models/best_model.pkl
+    metrics:
+      - metrics.json

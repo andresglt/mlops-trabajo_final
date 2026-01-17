@@ -1,0 +1,6 @@
+[core]
+    remote = azure
+['remote "azure"']
+    url = azure://mlops-trabajo-final
+    account_name = dvcstorageclasemlops
+    sas_token = sp=racwdl&st=2026-01-17T18:14:51Z&se=2026-01-18T02:29:51Z&spr=https&sv=2024-11-04&sr=c&sig=SHDiqWJcPrwDRFDyHufqQTyuTcU%2BezDnlccUW8h0l2A%3D

@@ -1,0 +1,82 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - path: data/raw/bank-additional-full.csv
+      hash: md5
+      md5: f6cb2c1256ffe2836b36df321f46e92c
+      size: 5834924
+    - path: params.yaml
+      hash: md5
+      md5: aa08fcd4adcce2d2b8f27e9cde516590
+      size: 318
+    - path: src/preprocess.py
+      hash: md5
+      md5: cba9c0be23349f47fad306a2031c079f
+      size: 2880
+    outs:
+    - path: data/processed/X_test.parquet
+      hash: md5
+      md5: ce6d3614b5d0470f0bff76d0918717d2
+      size: 150564
+    - path: data/processed/X_train.parquet
+      hash: md5
+      md5: 845db25794edb3ef3696709c9582431c
+      size: 457555
+    - path: data/processed/meta.json
+      hash: md5
+      md5: 97d37f6c98305e423e82bc08d93b56f4
+      size: 279
+    - path: data/processed/y_test.parquet
+      hash: md5
+      md5: f568ae6f817ab7c0711e5d1a0d575050
+      size: 2438
+    - path: data/processed/y_train.parquet
+      hash: md5
+      md5: 53841c1feea8c13511c38631002effc1
+      size: 5722
+    - path: models/preprocessor.pkl
+      hash: md5
+      md5: 0b65ca1c9180a65950fa079d59540920
+      size: 3650
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed/X_test.parquet
+      hash: md5
+      md5: ce6d3614b5d0470f0bff76d0918717d2
+      size: 150564
+    - path: data/processed/X_train.parquet
+      hash: md5
+      md5: 845db25794edb3ef3696709c9582431c
+      size: 457555
+    - path: data/processed/y_test.parquet
+      hash: md5
+      md5: f568ae6f817ab7c0711e5d1a0d575050
+      size: 2438
+    - path: data/processed/y_train.parquet
+      hash: md5
+      md5: 53841c1feea8c13511c38631002effc1
+      size: 5722
+    - path: models/preprocessor.pkl
+      hash: md5
+      md5: 0b65ca1c9180a65950fa079d59540920
+      size: 3650
+    - path: params.yaml
+      hash: md5
+      md5: aa08fcd4adcce2d2b8f27e9cde516590
+      size: 318
+    - path: src/train.py
+      hash: md5
+      md5: 17604557bee3e635d11444dcbc7d7e71
+      size: 3972
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 8fd3be7abbbf98af8d2b893942651f69
+      size: 88
+    - path: models/best_model.pkl
+      hash: md5
+      md5: aa3531d20bec3d8924d22b2e097d7637
+      size: 356004
