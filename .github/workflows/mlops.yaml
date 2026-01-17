@@ -1,0 +1,59 @@
+name: MLOps CI
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  build-train:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    env:
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      AZURE_RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}
+      AZURE_WORKSPACE_NAME: ${{ secrets.AZURE_WORKSPACE_NAME }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install azureml-core azureml-mlflow mlflow dvc[azure]
+
+    - name: Configure DVC Azure remote
+      env:
+        AZURE_ACCOUNT: ${{ secrets.AZURE_ACCOUNT }}
+        AZURE_KEY: ${{ secrets.AZURE_KEY }}
+      run: |
+        dvc remote modify azure account_name "$AZURE_ACCOUNT"
+        dvc remote modify azure account_key "$AZURE_KEY"
+
+    - name: Pull data
+      run: dvc pull
+
+    - name: Reproduce pipeline
+      run: dvc repro
+
+    # 🔑 Ya no usamos azure/login con creds JSON, porque tu train.py
+    # hace la autenticación con ServicePrincipalAuthentication usando env vars.
+    # Así evitamos el error de "Not all values are present".
+    - name: Train and log in MLflow (Azure ML backend)
+      run: python src/train.py
+
+    - name: Push artifacts to DVC remote
+      run: dvc push

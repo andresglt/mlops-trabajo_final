@@ -1,0 +1,18 @@
+preprocess:
+  test_size: 0.2
+  random_state: 42
+
+model:
+  registered_model_name: churn-model
+
+logreg:
+  C: [0.1, 1.0, 10.0]
+  penalty: ["l2"]
+  solver: ["liblinear"]
+
+xgb:
+  n_estimators: [50, 100]
+  max_depth: [3, 6]
+  learning_rate: [0.05, 0.1]
+  subsample: [0.8, 1.0]
+  colsample_bytree: [0.8, 1.0]

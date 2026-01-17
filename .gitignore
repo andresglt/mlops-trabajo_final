@@ -1,0 +1,41 @@
+# Entorno virtual
+.venv/
+
+# Archivos de configuración de IDE
+.vscode/
+.idea/
+
+# Archivos temporales de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Logs y archivos temporales
+*.log
+*.tmp
+
+# Datos crudos y procesados (se manejan con DVC)
+data/raw/*
+!data/raw/*.dvc
+
+data/processed/*
+!data/processed/*.dvc
+
+# Modelos entrenados (también gestionados con DVC)
+models/*
+!models/*.dvc
+
+# Cache de DVC (muy pesada, no se versiona)
+.dvc/cache/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+activar_env.txt
+.env
+/metrics.json
+
+#carpeta de pruebas local
+infer/*
+logreg_model*
