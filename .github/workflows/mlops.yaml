@@ -1,3 +1,4 @@
+
 name: MLOps CI
 
 on:
@@ -20,6 +21,7 @@ jobs:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      AZURE_SAS_TOKEN: ${{ secrets.AZURE_SAS_TOKEN }}  # 🔑 SAS Token seguro
 
     steps:
     - name: Checkout
@@ -35,23 +37,17 @@ jobs:
         pip install -r requirements.txt
         pip install azureml-core azureml-mlflow mlflow dvc[azure]
 
-    - name: Configure DVC Azure remote
-      env:
-        AZURE_ACCOUNT: ${{ secrets.AZURE_ACCOUNT }}
-        AZURE_KEY: ${{ secrets.AZURE_KEY }}
+    - name: Configure DVC Azure remote with SAS Token
       run: |
-        dvc remote modify azure account_name "$AZURE_ACCOUNT"
-        dvc remote modify azure account_key "$AZURE_KEY"
+        # Configura el remoto para usar SAS Token
+        dvc remote modify azure sas_token "$AZURE_SAS_TOKEN"
 
-    - name: Pull data
+    - name: Pull data from Azure
       run: dvc pull
 
     - name: Reproduce pipeline
       run: dvc repro
 
-    # 🔑 Ya no usamos azure/login con creds JSON, porque tu train.py
-    # hace la autenticación con ServicePrincipalAuthentication usando env vars.
-    # Así evitamos el error de "Not all values are present".
     - name: Train and log in MLflow (Azure ML backend)
       run: python src/train.py
 
