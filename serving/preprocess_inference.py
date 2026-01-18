@@ -21,13 +21,9 @@ def preprocess_new_data(raw_records):
     df = pd.DataFrame(raw_records)
 
     # Excluir columnas irrelevantes si aparecen
-    for col in ["customerID", "Churn"]:
+    for col in ["y"]:
         if col in df.columns:
             df = df.drop(columns=[col])
-
-    # Convertir TotalCharges a numérica si existe
-    if "TotalCharges" in df.columns:
-        df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors="coerce")
 
     # Asegurar orden de columnas
     expected_cols = numeric_cols + categorical_cols
