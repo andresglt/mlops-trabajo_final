@@ -4,5 +4,5 @@
 ['remote "azure"']
     url = azure://mlops-trabajo-final
     account_name = ${AZURE_STORAGE_ACCOUNT}
-    account_key = ${AZURE_STORAGE_KEY
+    account_key = ${AZURE_STORAGE_KEY}
 
