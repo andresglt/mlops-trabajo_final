@@ -21,12 +21,5 @@ EXPOSE 8000
 # Comando de arranque: Uvicorn con FastAPI
 
 
-CMD ["bash", "-c", "\
-dvc remote modify azure account_name \"$AZURE_ACCOUNT_NAME\" && \
-dvc remote modify azure sas_token \"$AZURE_SAS_TOKEN\" && \
-echo 'Descargando artefactos específicos con DVC...' && \
-dvc pull models/best_model.pkl models/preprocessor.pkl --verbose && \
-echo 'Contenido del directorio models:' && \
-ls -lh models && \
-uvicorn serving.app:app --host 0.0.0.0 --port $PORT"]
+CMD [uvicorn serving.app:app --host 0.0.0.0 --port $PORT"]
 
