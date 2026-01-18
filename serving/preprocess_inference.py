@@ -4,8 +4,11 @@ import pickle
 import json
 
 # Cargar el preprocesador entrenado
-with open("models/preprocessor.pkl", "rb") as f:
+
+model_path = os.path.join(os.getcwd(), "models", "preprocessor.pkl")
+with open(model_path, "rb") as f:
     preprocessor = pickle.load(f)
+
 
 # Cargar metadata de columnas
 meta = json.load(open("data/processed/meta.json"))
