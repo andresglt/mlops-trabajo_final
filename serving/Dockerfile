@@ -19,4 +19,9 @@ ENV PORT=8000
 EXPOSE 8000
 
 # Comando de arranque: Uvicorn con FastAPI
-CMD ["bash", "-c", "dvc remote modify azure account_name \"$AZURE_ACCOUNT_NAME\" && dvc remote modify azure sas_token \"$AZURE_SAS_TOKEN\" && dvc pull && uvicorn serving.app:app --host 0.0.0.0 --port $PORT"]
+
+CMD ["bash", "-c", "dvc remote modify azure account_name \"$AZURE_ACCOUNT_NAME\" && \
+dvc remote modify azure sas_token \"$AZURE_SAS_TOKEN\" && \
+dvc pull --verbose && \
+ls -R models && \
+uvicorn serving.app:app --host 0.0.0.0 --port $PORT"]
