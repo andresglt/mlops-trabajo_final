@@ -4,5 +4,5 @@
 
 ['remote "azure"']
     url = azure://mlops-trabajo-final
-    sas_token = ${AZURE_SAS_TOKEN}
+
 

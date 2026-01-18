@@ -41,8 +41,8 @@ jobs:
     - name: Configure DVC Azure remote with SAS Token
       run: |
         # Configura el remoto para usar SAS Token
-        dvc remote modify azure account_name $AZURE_ACCOUNT_NAME
         dvc remote add -d azure azure://mlops-trabajo-final --force
+        dvc remote modify azure account_name $AZURE_ACCOUNT_NAME
         dvc remote modify azure sas_token "$AZURE_SAS_TOKEN"
 
     - name: Pull data from Azure
