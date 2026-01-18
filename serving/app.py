@@ -57,11 +57,11 @@ def predict(batch: Batch):
     except Exception as e:
         return {"error": f"Error al predecir: {str(e)}"}
 
-    # Emparejar cada predicción con su customerID original
+    # Emparejar cada predicción con su índice
     results = []
-    for rec, pred in zip(raw_records, preds_list):
+    for idx, pred in enumerate(preds_list, start=1):
         results.append({
-            "customerID": rec.get("customerID"),
+            "record_index": idx,
             "prediction": pred
         })
 
